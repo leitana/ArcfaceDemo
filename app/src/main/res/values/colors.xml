@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#268ee3</color>
+    <color name="colorPrimaryDark">#268ee3</color>
+    <color name="colorAccent">#268ee3</color>
+
+    <color name="themeColor">#268ee3</color>
+    <color name="white">#ffffff</color>
+    <color name="gray">#bfbfbf</color><!-- 灰色 -->
+    <color name="black">#000000</color>
+    <color name="background">#FAFBFF</color>
+    <color name="fragment_gonggao_dividerline_blue">#C6DFF3</color>
+    <color name="fragment_gonggao_dividerline_gray">#d0d0d0</color>
+    <color name="text_gray">#888888</color>
+    <color name="boco_color_divider">#FFF2F0F0</color>
+    <color name="red">#FF00</color>
+    <color name="orage">#ff8000</color>
+
+    <color name="color_bg_notification">#80000000</color>
+    <color name="color_bg_name">#80000000</color>
+</resources>
