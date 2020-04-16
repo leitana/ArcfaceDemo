@@ -3,4 +3,4 @@
 
 学习虹软人脸识别SDK
 
-![image][https://github.com/leitana/ArcfaceDemo/raw/master/pic1.jpg]
+![](/pic1.png)
