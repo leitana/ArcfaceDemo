@@ -3,4 +3,6 @@
 
 学习虹软人脸识别SDK
 
-![Alt text](https://github.com/leitana/ArcfaceDemo/raw/master/pic1.jpg "optional title")
+!(https://github.com/leitana/ArcfaceDemo/raw/master/pic1.jpg "图片1")
+!(https://github.com/leitana/ArcfaceDemo/raw/master/pic2.jpg "图片1")
+!(https://github.com/leitana/ArcfaceDemo/raw/master/pic3.jpg "图片1")
