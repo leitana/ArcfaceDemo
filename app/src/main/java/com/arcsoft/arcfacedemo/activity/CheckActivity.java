@@ -78,7 +78,6 @@ import static com.arcsoft.face.enums.DetectFaceOrientPriority.ASF_OP_ALL_OUT;
 public class CheckActivity extends AppCompatActivity implements ViewTreeObserver.OnGlobalLayoutListener{
     private static final String TAG = "CheckActivity";
     private static final int MAX_DETECT_NUM = 10;
-
     private FaceEngine faceEngine = new FaceEngine();
     private Toast toast = null;
     /**
