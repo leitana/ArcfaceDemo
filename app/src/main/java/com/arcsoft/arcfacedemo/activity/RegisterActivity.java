@@ -130,7 +130,7 @@ public class RegisterActivity extends AppCompatActivity  implements ViewTreeObse
     /**
      * 活体检测的开关
      */
-    private boolean livenessDetect = false;
+    private boolean livenessDetect = true;
     /**
      * 注册人脸状态码，准备注册
      */
@@ -299,6 +299,10 @@ public class RegisterActivity extends AppCompatActivity  implements ViewTreeObse
      * 初始化引擎
      */
     private void initEngine() {
+        int combinedMask = FaceEngine.ASF_FACE_DETECT |
+                FaceEngine.ASF_IR_LIVENESS |
+                FaceEngine.ASF_LIVENESS |
+                FaceEngine.ASF_GENDER;
         ConfigUtil.setFtOrient(RegisterActivity.this, ASF_OP_ALL_OUT);
         ftEngine = new FaceEngine();
         ftInitCode = ftEngine.init(this, DetectMode.ASF_DETECT_MODE_VIDEO, ConfigUtil.getFtOrient(this),
@@ -310,7 +314,7 @@ public class RegisterActivity extends AppCompatActivity  implements ViewTreeObse
 
         flEngine = new FaceEngine();
         flInitCode = flEngine.init(this, DetectMode.ASF_DETECT_MODE_IMAGE, DetectFaceOrientPriority.ASF_OP_0_ONLY,
-                16, MAX_DETECT_NUM, FaceEngine.ASF_IR_LIVENESS);
+                16, MAX_DETECT_NUM, combinedMask);
 
         Log.i(TAG, "initEngine:  init: " + ftInitCode);
 

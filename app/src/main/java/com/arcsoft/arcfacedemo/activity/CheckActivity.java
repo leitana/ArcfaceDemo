@@ -84,7 +84,7 @@ public class CheckActivity extends AppCompatActivity implements ViewTreeObserver
     /**
      * 当FR成功，活体未成功时，FR等待活体的时间
      */
-    private static final int WAIT_LIVENESS_INTERVAL = 100;
+    private static final int WAIT_LIVENESS_INTERVAL = 50;
     /**
      * 失败重试间隔时间（ms）
      */
@@ -139,7 +139,7 @@ public class CheckActivity extends AppCompatActivity implements ViewTreeObserver
     /**
      * 活体检测的开关
      */
-    private boolean livenessDetect = false;
+    private boolean livenessDetect = true;
     /**
      * 注册人脸状态码，准备注册
      */
@@ -154,6 +154,14 @@ public class CheckActivity extends AppCompatActivity implements ViewTreeObserver
     private static final int REGISTER_STATUS_DONE = 2;
 
     private int registerStatus = REGISTER_STATUS_DONE;
+
+    public static final int ASF_FACE_DETECT = 0x00000001;	        //人脸检测
+    public static final int ASF_FACE_RECOGNITION = 0x00000004;	    //人脸特征
+    public static final int ASF_AGE = 0x00000008;	                //年龄
+    public static final int ASF_GENDER = 0x00000010;	            //性别
+    public static final int ASF_FACE3DANGLE = 0x00000020;	        //3D角度
+    public static final int ASF_LIVENESS = 0x00000080;	            //RGB活体
+    public static final int ASF_IR_LIVENESS = 0x00000400;           //IR活体
 
     private ConcurrentHashMap<Integer, Integer> requestFeatureStatusMap = new ConcurrentHashMap<>();
     private ConcurrentHashMap<Integer, Integer> extractErrorRetryMap = new ConcurrentHashMap<>();
@@ -366,6 +374,14 @@ public class CheckActivity extends AppCompatActivity implements ViewTreeObserver
      * 初始化引擎
      */
     private void initEngine() {
+
+        int combinedMask = FaceEngine.ASF_FACE_DETECT |
+                ASF_FACE_RECOGNITION |
+                ASF_AGE |
+                ASF_GENDER |
+                ASF_FACE3DANGLE |
+                FaceEngine.ASF_IR_LIVENESS |
+                FaceEngine.ASF_LIVENESS;
         ConfigUtil.setFtOrient(CheckActivity.this, ASF_OP_ALL_OUT);
         ftEngine = new FaceEngine();
         ftInitCode = ftEngine.init(this, DetectMode.ASF_DETECT_MODE_VIDEO, ConfigUtil.getFtOrient(this),
@@ -377,7 +393,7 @@ public class CheckActivity extends AppCompatActivity implements ViewTreeObserver
 
         flEngine = new FaceEngine();
         flInitCode = flEngine.init(this, DetectMode.ASF_DETECT_MODE_IMAGE, DetectFaceOrientPriority.ASF_OP_0_ONLY,
-                16, MAX_DETECT_NUM, FaceEngine.ASF_IR_LIVENESS);
+                16, MAX_DETECT_NUM, combinedMask);
 
         Log.i(TAG, "initEngine:  init: " + ftInitCode);
 
@@ -486,7 +502,7 @@ public class CheckActivity extends AppCompatActivity implements ViewTreeObserver
                     // 非活体，重试
                     if (liveness == LivenessInfo.NOT_ALIVE) {
 //                        faceHelper.setName(requestId, getString(R.string.recognize_failed_notice, "NOT_ALIVE"));
-//                        faceHelper.setName(requestId, "不是活体");
+                        faceHelper.setName(requestId, "不是活体");
                         // 延迟 FAIL_RETRY_INTERVAL 后，将该人脸状态置为UNKNOWN，帧回调处理时会重新进行活体检测
                         retryLivenessDetectDelayed(requestId);
                     }
@@ -500,8 +516,8 @@ public class CheckActivity extends AppCompatActivity implements ViewTreeObserver
                         } else {
                             msg = "ProcessCode:" + errorCode;
                         }
-//                        faceHelper.setName(requestId, getString(R.string.recognize_failed_notice, msg));
-                        faceHelper.setName(requestId, "未通过:"+msg);
+                        faceHelper.setName(requestId, getString(R.string.recognize_failed_notice, msg));
+//                        faceHelper.setName(requestId, "未通过:"+msg);
                         retryLivenessDetectDelayed(requestId);
                     } else {
                         livenessMap.put(requestId, LivenessInfo.UNKNOWN);
